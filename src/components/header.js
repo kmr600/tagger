@@ -1,42 +1,40 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
+import { Link } from "gatsby"
+import Sidebar from "./Sidebar"
+import Logo from "../images/logo.png"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
+const Header = () => {
+  const isPartiallyActive = ({ isPartiallyCurrent }) => {
+    return isPartiallyCurrent ? { className: "active" } : null
+  }
+
+  return (
+    <header>
+      <div className="logo">
+        <Link to="/">
+          <img src={Logo} alt="Tagger" />
         </Link>
-      </h1>
-    </div>
-  </header>
-)
+      </div>
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
+      <nav className="desktop">
+        <Link to="/" activeClassName="active">
+          Generator
+        </Link>
+        <Link to="/about" activeClassName="active" getProps={isPartiallyActive}>
+          About
+        </Link>
+        <Link
+          to="/contact"
+          activeClassName="active"
+          getProps={isPartiallyActive}
+        >
+          Contact
+        </Link>
+      </nav>
 
-Header.defaultProps = {
-  siteTitle: ``,
+      <Sidebar />
+    </header>
+  )
 }
 
 export default Header
