@@ -1,7 +1,5 @@
 import React, { useLayoutEffect, useEffect } from "react"
-import PropTypes from "prop-types"
-
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { startLoading, stopLoading, reset } from "../state/actions/appActions"
 import { clearAllBodyScrollLocks } from "body-scroll-lock"
 import Layout from "../components/Layout"
@@ -14,17 +12,19 @@ import Keywords from "../components/Keywords"
 
 import "react-toastify/dist/ReactToastify.min.css"
 
-const IndexPage = ({ startLoading, stopLoading, reset, app }) => {
-  const { loading, generatedKeywords } = app
+const IndexPage = () => {
+  const dispatch = useDispatch()
+
+  const { loading, generatedKeywords } = useSelector(({ app }) => app)
 
   useLayoutEffect(() => {
-    startLoading()
-    reset()
+    dispatch(startLoading())
+    dispatch(reset())
   }, [])
 
   useEffect(() => {
     // set delay to loading screen to avoid page flicker caused by the preview box rendering
-    const loadingDelay = setTimeout(() => stopLoading(), 750)
+    const loadingDelay = setTimeout(() => dispatch(stopLoading(), 750))
 
     return () => {
       clearTimeout(loadingDelay)
@@ -68,18 +68,4 @@ const IndexPage = ({ startLoading, stopLoading, reset, app }) => {
   )
 }
 
-IndexPage.propTypes = {
-  startLoading: PropTypes.func.isRequired,
-  stopLoading: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  { startLoading, stopLoading, reset }
-)(IndexPage)
+export default IndexPage

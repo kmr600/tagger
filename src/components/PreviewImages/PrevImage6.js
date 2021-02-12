@@ -2,11 +2,11 @@ import React from "react"
 import { StaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
 
-export const Prev5Image = () => (
+export const PrevImage6 = () => (
   <StaticQuery
     query={graphql`
       query {
-        previewImage: file(relativePath: { eq: "beach.jpg" }) {
+        file(relativePath: { eq: "dog.jpg" }) {
           childImageSharp {
             fluid(maxWidth: 380) {
               ...GatsbyImageSharpFluid
@@ -15,12 +15,12 @@ export const Prev5Image = () => (
         }
       }
     `}
-    render={data => <Img fluid={data.previewImage.childImageSharp.fluid} />}
+    render={data => <Img fluid={data.file.childImageSharp.fluid} />}
   />
 )
 
-export const Prev5Hashtags = () => {
-  const hashtags = ["#summer", "#beach", "#travel", "#vacation", "#tagger"]
+export const PrevHashtags6 = () => {
+  const hashtags = ["#dog", "#snow", "#winter", "#friendship", "#tagger"]
 
   return hashtags.map((hashtag, index) => (
     <li key={index} className="hashtag">

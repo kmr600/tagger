@@ -1,12 +1,13 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 import PreviewDefault from "./PreviewDefault"
 import Preview from "./Preview"
 import ImageError from "./ImageError"
 
-const PreviewIndex = ({ app }) => {
-  const { error, errorMessage, generatedKeywords } = app
+const PreviewIndex = () => {
+  const { error, errorMessage, generatedKeywords } = useSelector(
+    ({ app }) => app
+  )
 
   return (
     <div className="preview">
@@ -21,15 +22,4 @@ const PreviewIndex = ({ app }) => {
   )
 }
 
-PreviewIndex.propTypes = {
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(PreviewIndex)
+export default PreviewIndex

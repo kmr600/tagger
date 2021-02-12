@@ -1,21 +1,20 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 import {
   FaRegHeart,
   FaRegComment,
   FaRegEnvelope,
   FaRegBookmark,
 } from "react-icons/fa"
-import { Prev1Image, Prev1Hashtags } from "../PreviewImages/Prev1Image"
-import { Prev2Image, Prev2Hashtags } from "../PreviewImages/Prev2Image"
-import { Prev3Image, Prev3Hashtags } from "../PreviewImages/Prev3Image"
-import { Prev4Image, Prev4Hashtags } from "../PreviewImages/Prev4Image"
-import { Prev5Image, Prev5Hashtags } from "../PreviewImages/Prev5Image"
-import { Prev6Image, Prev6Hashtags } from "../PreviewImages/Prev6Image"
+import { PrevImage1, PrevHashtags1 } from "../PreviewImages/PrevImage1"
+import { PrevImage2, PrevHashtags2 } from "../PreviewImages/PrevImage2"
+import { PrevImage3, PrevHashtags3 } from "../PreviewImages/PrevImage3"
+import { PrevImage4, PrevHashtags4 } from "../PreviewImages/PrevImage4"
+import { PrevImage5, PrevHashtags5 } from "../PreviewImages/PrevImage5"
+import { PrevImage6, PrevHashtags6 } from "../PreviewImages/PrevImage6"
 
-const PreviewDefault = ({ app }) => {
-  const { likes, selectedKeywords } = app
+const PreviewDefault = () => {
+  const { likes, selectedKeywords } = useSelector(({ app }) => app)
 
   const previewImageNumber = Math.floor(Math.random() * 6) + 1
 
@@ -36,12 +35,12 @@ const PreviewDefault = ({ app }) => {
       </div>
 
       <div className="preview-image-container">
-        {previewImageNumber === 1 && <Prev1Image />}
-        {previewImageNumber === 2 && <Prev2Image />}
-        {previewImageNumber === 3 && <Prev3Image />}
-        {previewImageNumber === 4 && <Prev4Image />}
-        {previewImageNumber === 5 && <Prev5Image />}
-        {previewImageNumber === 6 && <Prev6Image />}
+        {previewImageNumber === 1 && <PrevImage1 />}
+        {previewImageNumber === 2 && <PrevImage2 />}
+        {previewImageNumber === 3 && <PrevImage3 />}
+        {previewImageNumber === 4 && <PrevImage4 />}
+        {previewImageNumber === 5 && <PrevImage5 />}
+        {previewImageNumber === 6 && <PrevImage6 />}
       </div>
 
       <div className="preview-footer">
@@ -67,27 +66,16 @@ const PreviewDefault = ({ app }) => {
         <div className="hashtags">
           <div className="name" />
 
-          {previewImageNumber === 1 && <Prev1Hashtags />}
-          {previewImageNumber === 2 && <Prev2Hashtags />}
-          {previewImageNumber === 3 && <Prev3Hashtags />}
-          {previewImageNumber === 4 && <Prev4Hashtags />}
-          {previewImageNumber === 5 && <Prev5Hashtags />}
-          {previewImageNumber === 6 && <Prev6Hashtags />}
+          {previewImageNumber === 1 && <PrevHashtags1 />}
+          {previewImageNumber === 2 && <PrevHashtags2 />}
+          {previewImageNumber === 3 && <PrevHashtags3 />}
+          {previewImageNumber === 4 && <PrevHashtags4 />}
+          {previewImageNumber === 5 && <PrevHashtags5 />}
+          {previewImageNumber === 6 && <PrevHashtags6 />}
         </div>
       </div>
     </div>
   )
 }
 
-PreviewDefault.propTypes = {
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(PreviewDefault)
+export default PreviewDefault

@@ -1,10 +1,9 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 import Keyword from "./Keyword"
 
-const GeneratedKeywords = ({ app }) => {
-  const { generatedKeywords } = app
+const GeneratedKeywords = () => {
+  const { generatedKeywords } = useSelector(({ app }) => app)
 
   return (
     <div className="generated-keywords">
@@ -15,15 +14,4 @@ const GeneratedKeywords = ({ app }) => {
   )
 }
 
-GeneratedKeywords.propTypes = {
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(GeneratedKeywords)
+export default GeneratedKeywords

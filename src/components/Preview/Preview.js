@@ -1,6 +1,5 @@
 import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 import {
   FaRegHeart,
   FaRegComment,
@@ -8,8 +7,10 @@ import {
   FaRegBookmark,
 } from "react-icons/fa"
 
-const Preview = ({ app }) => {
-  const { imageSrc, imageName, likes, selectedKeywords } = app
+const Preview = () => {
+  const { imageSrc, imageName, likes, selectedKeywords } = useSelector(
+    ({ app }) => app
+  )
 
   return (
     <div className="preview-box">
@@ -63,15 +64,4 @@ const Preview = ({ app }) => {
   )
 }
 
-Preview.propTypes = {
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  {}
-)(Preview)
+export default Preview

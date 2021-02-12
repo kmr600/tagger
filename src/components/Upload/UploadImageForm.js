@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import {
   startLoading,
   stopLoading,
@@ -17,15 +16,10 @@ const clarifaiApp = new Clarifai.App({
   apiKey: `${process.env.GATSBY_CLARIFAI_API_KEY}`,
 })
 
-const UploadImageForm = ({
-  startLoading,
-  stopLoading,
-  setErrorMessage,
-  showResults,
-  reset,
-  app,
-}) => {
-  const { generatedKeywords, maxConcepts } = app
+const UploadImageForm = () => {
+  const dispatch = useDispatch()
+
+  const { generatedKeywords, maxConcepts } = useSelector(({ app }) => app)
 
   const [file, setFile] = useState({
     present: false,
@@ -82,8 +76,8 @@ const UploadImageForm = ({
   const handleSubmit = async e => {
     e.preventDefault()
 
-    startLoading()
-    reset()
+    dispatch(startLoading())
+    dispatch(reset())
 
     if (file.present) {
       try {
@@ -92,28 +86,28 @@ const UploadImageForm = ({
         const base64 = await getBase64(file.blob)
         const cloudinaryUrl = await uploadToCloudinary(base64)
         const data = await getClarifaiData(cloudinaryUrl)
-        showResults(file, data)
+        dispatch(showResults(file, data))
       } catch (errorMessage) {
-        setErrorMessage(errorMessage)
+        dispatch(setErrorMessage(errorMessage))
       }
       // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => stopLoading(), 250)
+      setTimeout(() => dispatch(stopLoading(), 250))
     } else if (url.present) {
       try {
         await urlIsImage(url.src)
         await urlIsNotGif(url.src)
         const data = await getClarifaiData(url.src)
-        showResults(url, data)
+        dispatch(showResults(url, data))
       } catch (errorMessage) {
-        setErrorMessage(errorMessage)
+        dispatch(setErrorMessage(errorMessage))
       }
       // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => stopLoading(), 250)
+      setTimeout(() => dispatch(stopLoading(), 250))
     } else {
       // in the case that both fields are empty
-      setErrorMessage("Upload an image or paste a URL to try again.")
+      dispatch(setErrorMessage("Upload an image or paste a URL to try again."))
       // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => stopLoading(), 250)
+      setTimeout(() => dispatch(stopLoading(), 250))
     }
   }
 
@@ -286,20 +280,4 @@ const UploadImageForm = ({
   )
 }
 
-UploadImageForm.propTypes = {
-  startLoading: PropTypes.func.isRequired,
-  stopLoading: PropTypes.func.isRequired,
-  setErrorMessage: PropTypes.func.isRequired,
-  showResults: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  app: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  { startLoading, stopLoading, setErrorMessage, showResults, reset }
-)(UploadImageForm)
+export default UploadImageForm

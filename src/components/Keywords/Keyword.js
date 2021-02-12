@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import { useDispatch } from "react-redux"
 import {
   addSelectedKeyword,
   removeSelectedKeyword,
 } from "../../state/actions/appActions"
 
-const Keyword = ({ children, addSelectedKeyword, removeSelectedKeyword }) => {
+const Keyword = ({ children }) => {
+  const dispatch = useDispatch()
+
   const [keyword, setKeyword] = useState("")
   const [selected, setSelected] = useState(false)
 
@@ -23,12 +25,12 @@ const Keyword = ({ children, addSelectedKeyword, removeSelectedKeyword }) => {
   useEffect(() => {
     // add to selected keywords list when selecting
     if (selected) {
-      addSelectedKeyword(keyword)
+      dispatch(addSelectedKeyword(keyword))
     }
 
     // remove from selected keywords list when deselecting
     if (!selected && keyword !== "") {
-      removeSelectedKeyword(keyword)
+      dispatch(removeSelectedKeyword(keyword))
     }
   }, [selected])
 
@@ -44,16 +46,6 @@ const Keyword = ({ children, addSelectedKeyword, removeSelectedKeyword }) => {
 
 Keyword.propTypes = {
   children: PropTypes.string.isRequired,
-  addSelectedKeyword: PropTypes.func.isRequired,
-  removeSelectedKeyword: PropTypes.func.isRequired,
-  app: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  app: state.app,
-})
-
-export default connect(
-  mapStateToProps,
-  { addSelectedKeyword, removeSelectedKeyword }
-)(Keyword)
+export default Keyword
