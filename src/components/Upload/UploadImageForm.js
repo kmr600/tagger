@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import styled, { keyframes } from "styled-components"
+import axios from "axios"
+import Clarifai from "clarifai"
+import { FaCaretDown } from "react-icons/fa"
 import {
   startLoading,
   stopLoading,
@@ -7,10 +11,64 @@ import {
   showResults,
   reset,
 } from "../../state/actions/appActions"
-import axios from "axios"
-import Clarifai from "clarifai"
-import { FaFileUpload, FaLink, FaCaretDown } from "react-icons/fa"
-import GradientButton from "../GradientButton"
+import Upload from "./Upload"
+import Url from "./Url"
+import GradientBtn from "../GradientButton"
+
+const move = keyframes`
+  0% {
+    top: 0;
+  }
+
+  50% {
+    top: 10px;
+  }
+
+  100% {
+    top: 0;
+  }
+`
+
+const UploadOptionsForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const Or = styled.span`
+  margin: 20px 0;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  color: ${props => props.theme.grey};
+`
+
+const GradientButton = styled(GradientBtn)`
+  margin-top: 50px;
+`
+
+const ScrollDown = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const ScrollDownText = styled.p`
+  color: #000;
+  font-size: 1rem;
+  text-align: center;
+
+  @media (max-width: 767px) {
+    text-align: center;
+    line-height: 1.4;
+  }
+`
+
+const ScrollDownIcon = styled.span`
+  animation: ${move} 2s infinite;
+  position: relative;
+`
 
 const clarifaiApp = new Clarifai.App({
   apiKey: `${process.env.GATSBY_CLARIFAI_API_KEY}`,
@@ -217,66 +275,24 @@ const UploadImageForm = () => {
   }
 
   return (
-    <form className="upload-image-form" onSubmit={handleSubmit}>
-      <div className="upload-box">
-        <div className="info">
-          <h3>Upload Image</h3>
-          <p className="file-types">(JPEG, PNG, TIFF, BMP, WEBP)</p>
-        </div>
+    <UploadOptionsForm onSubmit={handleSubmit}>
+      <Upload file={file} handleUpload={handleUpload} />
 
-        <div className="box-text">
-          <input
-            type="file"
-            name="file"
-            id="file-input"
-            onChange={e => handleUpload(e)}
-          />
+      <Or>or</Or>
 
-          <label
-            className={file.present ? "active" : ""}
-            id="file-input"
-            htmlFor="file-input"
-          >
-            {file.present ? file.name : `No file selected`}
-          </label>
-          <span className="icon">
-            <FaFileUpload />
-          </span>
-        </div>
-      </div>
-
-      <span className="or">or</span>
-
-      <div className="url-box">
-        <div className="info">
-          <h3>Paste URL</h3>
-          <p className="file-types">(JPEG, PNG, TIFF, BMP, WEBP)</p>
-        </div>
-
-        <div className="box-text">
-          <input
-            placeholder="Paste URL"
-            value={url.present ? url.name : ""}
-            type="text"
-            name="url"
-            id="url-input"
-            onChange={e => handleURL(e)}
-          />
-          <label htmlFor="url">{<FaLink />}</label>
-        </div>
-      </div>
+      <Url url={url} handleURL={handleURL} />
 
       <GradientButton type="submit">Generate Hashtags</GradientButton>
 
       {generatedKeywords.length > 0 && (
-        <div id="scroll-down">
-          <p>Scroll down to see Generated Hashtags</p>
-          <span className="icon">
+        <ScrollDown>
+          <ScrollDownText>Scroll down to see Generated Hashtags</ScrollDownText>
+          <ScrollDownIcon>
             <FaCaretDown />
-          </span>
-        </div>
+          </ScrollDownIcon>
+        </ScrollDown>
       )}
-    </form>
+    </UploadOptionsForm>
   )
 }
 

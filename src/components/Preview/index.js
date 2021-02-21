@@ -1,24 +1,29 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import PreviewDefault from "./PreviewDefault"
+import styled from "styled-components"
 import Preview from "./Preview"
 import ImageError from "./ImageError"
 
+const Container = styled.div`
+  flex: 0 0 auto;
+  margin-right: 110px;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    order: 2;
+    flex: auto;
+    margin-right: 0;
+    margin-top: 50px;
+  }
+`
+
 const PreviewIndex = () => {
-  const { error, errorMessage, generatedKeywords } = useSelector(
-    ({ app }) => app
-  )
+  const { error, errorMessage } = useSelector(({ app }) => app)
 
   return (
-    <div className="preview">
-      {error ? (
-        <ImageError errorMessage={errorMessage} />
-      ) : generatedKeywords.length > 0 ? (
-        <Preview />
-      ) : (
-        <PreviewDefault />
-      )}
-    </div>
+    <Container>
+      {error ? <ImageError errorMessage={errorMessage} /> : <Preview />}
+    </Container>
   )
 }
 

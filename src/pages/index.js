@@ -1,16 +1,29 @@
 import React, { useLayoutEffect, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { startLoading, stopLoading, reset } from "../state/actions/appActions"
 import { clearAllBodyScrollLocks } from "body-scroll-lock"
+import { ToastContainer } from "react-toastify"
+import styled from "styled-components"
+import { startLoading, stopLoading, reset } from "../state/actions/appActions"
 import Layout from "../components/Layout"
 import SEO from "../components/Seo"
 import LoadingScreen from "../components/LoadingScreen"
-import { ToastContainer } from "react-toastify"
 import Preview from "../components/Preview"
 import Upload from "../components/Upload"
 import Keywords from "../components/Keywords"
-
 import "react-toastify/dist/ReactToastify.min.css"
+
+const Page = styled.div``
+
+const Generator = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`
 
 const IndexPage = () => {
   const dispatch = useDispatch()
@@ -36,7 +49,7 @@ const IndexPage = () => {
     <Layout>
       <SEO title="Home" />
 
-      <div id="index-page">
+      <Page>
         {loading && <LoadingScreen />}
 
         <ToastContainer
@@ -53,17 +66,13 @@ const IndexPage = () => {
           pauseOnHover
         />
 
-        <section id="generator">
+        <Generator>
           <Preview />
           <Upload />
-        </section>
+        </Generator>
 
-        {generatedKeywords.length > 0 && (
-          <section id="keywords">
-            <Keywords />
-          </section>
-        )}
-      </div>
+        {generatedKeywords.length > 0 && <Keywords />}
+      </Page>
     </Layout>
   )
 }

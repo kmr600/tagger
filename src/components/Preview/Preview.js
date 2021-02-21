@@ -6,61 +6,136 @@ import {
   FaRegEnvelope,
   FaRegBookmark,
 } from "react-icons/fa"
+import {
+  PreviewBox,
+  PreviewHeader,
+  ProfilePicture,
+  ProfileInfo,
+  Name,
+  Location,
+  MoreContainer,
+  More,
+  PreviewImageContainer,
+  PreviewFooter,
+  Buttons,
+  Left,
+  Right,
+  Likes,
+  Hashtags,
+  HashtagsName,
+  Hashtag,
+} from "./PreviewStyles"
+import { PrevImage1, PrevHashtags1 } from "../PreviewImages/PrevImage1"
+import { PrevImage2, PrevHashtags2 } from "../PreviewImages/PrevImage2"
+import { PrevImage3, PrevHashtags3 } from "../PreviewImages/PrevImage3"
+import { PrevImage4, PrevHashtags4 } from "../PreviewImages/PrevImage4"
+import { PrevImage5, PrevHashtags5 } from "../PreviewImages/PrevImage5"
+import { PrevImage6, PrevHashtags6 } from "../PreviewImages/PrevImage6"
 
 const Preview = () => {
-  const { imageSrc, imageName, likes, selectedKeywords } = useSelector(
-    ({ app }) => app
-  )
+  const {
+    imageSrc,
+    imageName,
+    likes,
+    generatedKeywords,
+    selectedKeywords,
+  } = useSelector(({ app }) => app)
+
+  const previewImageNumber = Math.floor(Math.random() * 6) + 1
+
+  const renderPreviewImage = () => {
+    switch (previewImageNumber) {
+      case 1:
+        return <PrevImage1 />
+      case 2:
+        return <PrevImage2 />
+      case 3:
+        return <PrevImage3 />
+      case 4:
+        return <PrevImage4 />
+      case 5:
+        return <PrevImage5 />
+      case 6:
+        return <PrevImage6 />
+      default:
+        return
+    }
+  }
+
+  const renderPreviewHashtags = () => {
+    switch (previewImageNumber) {
+      case 1:
+        return <PrevHashtags1 />
+      case 2:
+        return <PrevHashtags2 />
+      case 3:
+        return <PrevHashtags3 />
+      case 4:
+        return <PrevHashtags4 />
+      case 5:
+        return <PrevHashtags5 />
+      case 6:
+        return <PrevHashtags6 />
+      default:
+        return
+    }
+  }
 
   return (
-    <div className="preview-box">
-      <div className="preview-header">
-        <div className="profile-picture" />
+    <PreviewBox>
+      <PreviewHeader>
+        <ProfilePicture />
 
-        <div className="profile-info">
-          <div className="name" />
+        <ProfileInfo>
+          <Name />
 
-          <div className="location" />
-        </div>
+          <Location />
+        </ProfileInfo>
 
-        <div className="more-container">
-          <div className="more" />
-        </div>
-      </div>
+        <MoreContainer>
+          <More />
+        </MoreContainer>
+      </PreviewHeader>
 
-      <div className="preview-image-container">
-        <img src={imageSrc} alt={imageName} />
-      </div>
+      <PreviewImageContainer>
+        {generatedKeywords.length > 0 ? (
+          <img src={imageSrc} alt={imageName} />
+        ) : (
+          renderPreviewImage()
+        )}
+      </PreviewImageContainer>
 
-      <div className="preview-footer">
-        <div className="buttons">
-          <div className="left">
+      <PreviewFooter>
+        <Buttons>
+          <Left>
             <FaRegHeart className="button" />
             <FaRegComment className="button flip" />
-            <FaRegEnvelope className="button rotate" />
-          </div>
-          <div className="right">
+            <FaRegEnvelope className="button" />
+          </Left>
+          <Right>
             <FaRegBookmark className="button" />
-          </div>
-        </div>
+          </Right>
+        </Buttons>
 
-        <div className="likes">
+        <Likes>
           {selectedKeywords.length > 0
             ? `${Math.floor(Math.random() * 50) +
                 100 * selectedKeywords.length +
                 likes} likes`
             : `${likes} likes`}
-        </div>
+        </Likes>
 
-        <div className="hashtags">
-          <div className="name" />
+        <Hashtags>
+          <HashtagsName />
 
-          {selectedKeywords.map((keyword, index) => {
-            return <li key={index} className="hashtag">{`#${keyword}`}</li>
-          })}
-        </div>
-      </div>
-    </div>
+          {generatedKeywords.length > 0
+            ? selectedKeywords.map((keyword, index) => (
+                <Hashtag key={index}>{`#${keyword}`}</Hashtag>
+              ))
+            : renderPreviewHashtags()}
+        </Hashtags>
+      </PreviewFooter>
+    </PreviewBox>
   )
 }
 

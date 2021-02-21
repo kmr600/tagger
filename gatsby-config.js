@@ -40,5 +40,6 @@ module.exports = {
         head: false,
       },
     },
+    `gatsby-plugin-styled-components`,
   ],
 }

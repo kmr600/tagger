@@ -1,8 +1,13 @@
 import React from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { notifySuccess, notifyError } from "../../state/actions/appActions"
 import { CopyToClipboard as ReactCopyToClipboard } from "react-copy-to-clipboard"
-import GradientButton from "../GradientButton"
+import styled from "styled-components"
+import { notifySuccess, notifyError } from "../../state/actions/appActions"
+import GradientBtn from "../GradientButton"
+
+const GradientButton = styled(GradientBtn)`
+  margin: 50px auto 0;
+`
 
 const CopyToClipboard = () => {
   const dispatch = useDispatch()

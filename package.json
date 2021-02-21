@@ -8,7 +8,10 @@
   },
   "author": "Kyle Smith <contact@kylesmith.digital>",
   "dependencies": {
+    "@fontsource/josefin-sans": "^4.2.1",
+    "@fontsource/lobster": "^4.2.1",
     "axios": "^0.19.2",
+    "babel-plugin-styled-components": "^1.12.0",
     "body-scroll-lock": "^2.7.1",
     "clarifai": "^2.9.1",
     "gatsby": "^2.32.3",
@@ -19,6 +22,7 @@
     "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-sass": "^3.2.0",
     "gatsby-plugin-sharp": "^2.14.1",
+    "gatsby-plugin-styled-components": "^3.10.0",
     "gatsby-source-filesystem": "^2.11.0",
     "gatsby-transformer-sharp": "^2.12.0",
     "node-sass": "^5.0.0",
@@ -32,7 +36,8 @@
     "react-redux": "^7.2.2",
     "react-toastify": "^5.5.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"

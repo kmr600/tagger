@@ -1,16 +1,24 @@
 import React from "react"
 import { useSelector } from "react-redux"
+import styled from "styled-components"
 import Keyword from "./Keyword"
+
+const Container = styled.div`
+  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`
 
 const GeneratedKeywords = () => {
   const { generatedKeywords } = useSelector(({ app }) => app)
 
   return (
-    <div className="generated-keywords">
+    <Container>
       {generatedKeywords.map((keyword, index) => (
         <Keyword key={index}>{keyword}</Keyword>
       ))}
-    </div>
+    </Container>
   )
 }
 

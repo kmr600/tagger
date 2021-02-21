@@ -1,6 +1,7 @@
 import React from "react"
 import { StaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
+import { Hashtag } from "../Preview/PreviewStyles"
 
 export const PrevImage4 = () => (
   <StaticQuery
@@ -30,8 +31,6 @@ export const PrevHashtags4 = () => {
   ]
 
   return hashtags.map((hashtag, index) => (
-    <li key={index} className="hashtag">
-      {hashtag}
-    </li>
+    <Hashtag key={index}>{hashtag}</Hashtag>
   ))
 }
