@@ -15,7 +15,7 @@ const initialState = {
   imageSrc: null,
   imageName: null,
   error: false,
-  errorMessage: "",
+  errorMessage: "Please try a different image or URL.",
   maxConcepts: 23,
   generatedKeywords: [],
   selectedKeywords: [],

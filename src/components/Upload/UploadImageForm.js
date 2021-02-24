@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import styled, { keyframes } from "styled-components"
-import axios from "axios"
 import Clarifai from "clarifai"
 import { FaCaretDown } from "react-icons/fa"
 import {
@@ -14,6 +13,15 @@ import {
 import Upload from "./Upload"
 import Url from "./Url"
 import GradientBtn from "../GradientButton"
+import {
+  fileIsImage,
+  fileIsNotGif,
+  urlIsImage,
+  urlIsNotGif,
+  getBase64,
+  uploadToCloudinary,
+  getClarifaiData,
+} from "../../utils"
 
 const move = keyframes`
   0% {
@@ -95,9 +103,9 @@ const UploadImageForm = () => {
   useEffect(() => {
     return () => {
       // clear previous uploaded image from browser
-      URL.revokeObjectURL(file.src)
+      if (file && file.src) URL.revokeObjectURL(file.src)
     }
-  }, [])
+  }, [file])
 
   const handleUpload = e => {
     // clear url field because we only want to submit one image
@@ -143,135 +151,37 @@ const UploadImageForm = () => {
         await fileIsNotGif(file.type)
         const base64 = await getBase64(file.blob)
         const cloudinaryUrl = await uploadToCloudinary(base64)
-        const data = await getClarifaiData(cloudinaryUrl)
+        const data = await getClarifaiData({
+          src: cloudinaryUrl,
+          maxConcepts,
+          Clarifai,
+          clarifaiApp,
+        })
         dispatch(showResults(file, data))
       } catch (errorMessage) {
         dispatch(setErrorMessage(errorMessage))
       }
-      // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => dispatch(stopLoading(), 250))
     } else if (url.present) {
       try {
         await urlIsImage(url.src)
         await urlIsNotGif(url.src)
-        const data = await getClarifaiData(url.src)
+        const data = await getClarifaiData({
+          src: url.src,
+          maxConcepts,
+          Clarifai,
+          clarifaiApp,
+        })
         dispatch(showResults(url, data))
       } catch (errorMessage) {
         dispatch(setErrorMessage(errorMessage))
       }
-      // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => dispatch(stopLoading(), 250))
     } else {
       // in the case that both fields are empty
       dispatch(setErrorMessage("Upload an image or paste a URL to try again."))
-      // set delay to loading screen to avoid page flicker caused by the preview box rendering
-      setTimeout(() => dispatch(stopLoading(), 250))
     }
-  }
 
-  const fileIsImage = type => {
-    return new Promise((resolve, reject) => {
-      if (type.split("/")[0] === "image") {
-        resolve()
-      } else {
-        reject(`It seems that you didn't use a valid image.`)
-      }
-    })
-  }
-
-  const fileIsNotGif = type => {
-    return new Promise((resolve, reject) => {
-      if (type.split("/")[1] === "gif") {
-        reject(
-          `GIFs are not supported. Use a different image or URL and try again.`
-        )
-      } else {
-        resolve()
-      }
-    })
-  }
-
-  const urlIsImage = src => {
-    return new Promise((resolve, reject) => {
-      let tester = new Image()
-      tester.src = src
-
-      tester.onload = () => resolve()
-
-      tester.onerror = () =>
-        reject(`It seems that you didn't use a valid image.`)
-    })
-  }
-
-  const urlIsNotGif = src => {
-    return new Promise((resolve, reject) => {
-      let extension = src.substring(src.length - 3, src.length).toLowerCase()
-
-      if (extension === "gif") {
-        reject(
-          `GIFs are not supported. Use a different image or URL and try again.`
-        )
-      } else {
-        resolve()
-      }
-    })
-  }
-
-  const getBase64 = fileSrc => {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader()
-      reader.readAsDataURL(fileSrc)
-      reader.onload = () => resolve(reader.result)
-      reader.onerror = () =>
-        reject("Something went wrong with uploading your image.")
-    })
-  }
-
-  const uploadToCloudinary = src => {
-    // upload uploaded file's blob to Cloudinary so it becomes an accesible url
-    return new Promise((resolve, reject) => {
-      let formData = new FormData()
-      formData.append("file", src)
-      formData.append(
-        "upload_preset",
-        process.env.GATSBY_CLOUDINARY_UPLOAD_PRESET
-      )
-
-      axios({
-        url: process.env.GATSBY_CLOUDINARY_URL,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        data: formData,
-      })
-        .then(response => resolve(response.data.secure_url))
-        .catch(() => reject("Something went wrong with uploading your image."))
-    })
-  }
-
-  const getClarifaiData = src => {
-    return new Promise((resolve, reject) => {
-      clarifaiApp.models
-        .predict(Clarifai.GENERAL_MODEL, `${src}`, {
-          maxConcepts: maxConcepts,
-        })
-        .then(response => {
-          // retrieve concepts/keywords
-          let concepts = response["outputs"][0]["data"]["concepts"]
-          let data = []
-
-          // loop through concepts to only get name of concepts and save them
-          for (let i = 0; i < concepts.length; i++) {
-            let concept = response["outputs"][0]["data"]["concepts"][i]["name"]
-
-            data = [...data, concept]
-          }
-
-          resolve(data)
-        })
-        .catch(() => reject(`Something with wrong with uploading your image.`))
-    })
+    // set delay to loading screen to avoid page flicker caused by the preview box rendering
+    setTimeout(() => dispatch(stopLoading(), 250))
   }
 
   return (

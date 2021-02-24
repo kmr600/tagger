@@ -70,7 +70,7 @@ const Keyword = ({ children }) => {
     if (!selected && keyword !== "") {
       dispatch(removeSelectedKeyword(keyword))
     }
-  }, [selected])
+  }, [selected, keyword, dispatch])
 
   return (
     <KeywordButton

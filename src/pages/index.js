@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect } from "react"
+import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { clearAllBodyScrollLocks } from "body-scroll-lock"
 import { ToastContainer } from "react-toastify"
@@ -30,20 +30,17 @@ const IndexPage = () => {
 
   const { loading, generatedKeywords } = useSelector(({ app }) => app)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(startLoading())
     dispatch(reset())
-  }, [])
 
-  useEffect(() => {
     // set delay to loading screen to avoid page flicker caused by the preview box rendering
-    const loadingDelay = setTimeout(() => dispatch(stopLoading(), 750))
-
+    const loadingDelay = setTimeout(() => dispatch(stopLoading()), 750)
     return () => {
       clearTimeout(loadingDelay)
       clearAllBodyScrollLocks()
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <Layout>

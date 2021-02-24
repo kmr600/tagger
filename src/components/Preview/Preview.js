@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import {
   FaRegHeart,
@@ -41,10 +41,14 @@ const Preview = () => {
     selectedKeywords,
   } = useSelector(({ app }) => app)
 
-  const previewImageNumber = Math.floor(Math.random() * 6) + 1
+  const [previewNumber, setPreviewNumber] = useState(null)
+
+  useEffect(() => {
+    setPreviewNumber(Math.floor(Math.random() * 6) + 1)
+  }, [])
 
   const renderPreviewImage = () => {
-    switch (previewImageNumber) {
+    switch (previewNumber) {
       case 1:
         return <PrevImage1 />
       case 2:
@@ -63,7 +67,7 @@ const Preview = () => {
   }
 
   const renderPreviewHashtags = () => {
-    switch (previewImageNumber) {
+    switch (previewNumber) {
       case 1:
         return <PrevHashtags1 />
       case 2:

@@ -17,7 +17,7 @@ const Container = styled.div`
   }
 `
 
-const PreviewIndex = () => {
+export default () => {
   const { error, errorMessage } = useSelector(({ app }) => app)
 
   return (
@@ -26,5 +26,3 @@ const PreviewIndex = () => {
     </Container>
   )
 }
-
-export default PreviewIndex

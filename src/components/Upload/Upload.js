@@ -61,6 +61,7 @@ const Upload = ({ file, handleUpload }) => {
           name="file"
           id="file-input"
           onChange={e => handleUpload(e)}
+          accept="image/jpeg, image/png, image/tiff, image/bmp, image/webp"
         />
 
         <Label
