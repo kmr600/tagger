@@ -103,6 +103,8 @@ interface Url {
   src: string
 }
 
+type PreviouslySubmitted = File | Url | null
+
 const UploadImageForm = () => {
   const dispatch = useDispatch()
 
@@ -122,6 +124,10 @@ const UploadImageForm = () => {
     name: "",
     src: "",
   })
+
+  const [previouslySubmitted, setPreviouslySubmitted] = useState<
+    PreviouslySubmitted
+  >(null)
 
   useEffect(() => {
     return () => {
@@ -169,8 +175,20 @@ const UploadImageForm = () => {
     })
   }
 
+  const wasPreviouslySubmitted = () => {
+    if (file.present && previouslySubmitted) {
+      if (file.src === previouslySubmitted.src) return true
+    } else if (url.present && previouslySubmitted) {
+      if (url.src === previouslySubmitted.src) return true
+    }
+
+    return false
+  }
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+
+    if (wasPreviouslySubmitted()) return
 
     dispatch(startLoading(document.querySelector("body") as HTMLElement))
     dispatch(reset())
@@ -188,6 +206,7 @@ const UploadImageForm = () => {
           clarifaiApp,
         })
         dispatch(showResults(file, data))
+        setPreviouslySubmitted(file)
       } catch (errorMessage) {
         dispatch(setErrorMessage(errorMessage))
       }
@@ -202,12 +221,15 @@ const UploadImageForm = () => {
           clarifaiApp,
         })
         dispatch(showResults(url, data))
+        setPreviouslySubmitted(url)
       } catch (errorMessage) {
         dispatch(setErrorMessage(errorMessage))
+        setPreviouslySubmitted(null)
       }
     } else {
       // in the case that both fields are empty
       dispatch(setErrorMessage("Upload an image or paste a URL to try again."))
+      setPreviouslySubmitted(null)
     }
 
     // set delay to loading screen to avoid page flicker caused by the preview box rendering

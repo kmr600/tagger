@@ -21,8 +21,6 @@ export const startLoading = (target: HTMLElement) => (dispatch: any) => {
   })
 
   disableBodyScroll(target)
-
-  console.log(typeof target, target)
 }
 
 export const stopLoading = (target: HTMLElement) => (dispatch: any) => {
