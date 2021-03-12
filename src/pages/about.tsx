@@ -82,9 +82,10 @@ const AboutPage = () => (
       <Content>
         <Info>
           <InfoText>
-            Tagger is a hashtag generator that gives users an up on their social
-            media posts. With the help of Clarifai’s API, Tagger uses machine
-            learning and visual recognition to provide accurate results.
+            Tagger is a hashtag generator that allows users to reach a larger
+            audience on socials. Using machine learning and visual recognition,
+            we provide accurate results based on your media, allowing you to
+            gain more visibility for your posts.
           </InfoText>
 
           <GradientButton to="/contact" className="desktop">
