@@ -10,7 +10,7 @@
   "dependencies": {
     "@fontsource/josefin-sans": "^4.2.1",
     "@fontsource/lobster": "^4.2.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-plugin-styled-components": "^1.12.0",
     "body-scroll-lock": "^2.7.1",
     "clarifai": "^2.9.1",
