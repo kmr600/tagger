@@ -192,13 +192,13 @@ const ContactPage = () => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       data: encode({
-        "form-name": e.target.getAttribute("name"),
+        "form-name": "contact",
         name,
         email,
         message,
       }),
     })
-      .then(() => navigate(e.target.getAttribute("action")))
+      .then(() => navigate("/thanks"))
       .catch(err => alert(err))
   }
 
@@ -227,7 +227,7 @@ const ContactPage = () => {
             action="/thanks"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
+            onSubmit={e => handleSubmit}
           >
             <Input type="hidden" name="form-name" value="contact" />
 
