@@ -3,36 +3,54 @@
   "private": true,
   "description": "Hashtag generator that uses machine learning and visual recognition.",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.x"
+  },
   "author": "Kyle Smith <contact@kylesmith.digital>",
   "dependencies": {
-    "axios": "^0.19.0",
-    "body-scroll-lock": "^2.6.1",
-    "clarifai": "^2.9.0",
-    "gatsby": "^2.10.0",
-    "gatsby-image": "^2.2.1",
-    "gatsby-plugin-google-analytics": "^2.1.2",
-    "gatsby-plugin-manifest": "^2.2.0",
-    "gatsby-plugin-offline": "^2.2.0",
-    "gatsby-plugin-react-helmet": "^3.1.0",
-    "gatsby-plugin-sass": "^2.1.0",
-    "gatsby-plugin-sharp": "^2.2.1",
-    "gatsby-source-filesystem": "^2.1.0",
-    "gatsby-transformer-sharp": "^2.2.0",
-    "node-sass": "^4.12.0",
+    "@fontsource/josefin-sans": "^4.2.1",
+    "@fontsource/lobster": "^4.2.1",
+    "axios": "^0.19.2",
+    "babel-plugin-styled-components": "^1.12.0",
+    "body-scroll-lock": "^2.7.1",
+    "clarifai": "^2.9.1",
+    "gatsby": "^2.32.3",
+    "gatsby-image": "^2.11.0",
+    "gatsby-plugin-google-analytics": "^2.11.0",
+    "gatsby-plugin-manifest": "^2.12.0",
+    "gatsby-plugin-offline": "^3.10.0",
+    "gatsby-plugin-react-helmet": "^3.10.0",
+    "gatsby-plugin-sass": "^3.2.0",
+    "gatsby-plugin-sharp": "^2.14.1",
+    "gatsby-plugin-styled-components": "^3.10.0",
+    "gatsby-source-filesystem": "^2.11.0",
+    "gatsby-transformer-sharp": "^2.12.0",
+    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-burger-menu": "^2.6.10",
-    "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.8.6",
+    "react": "^16.14.0",
+    "react-burger-menu": "^2.9.2",
+    "react-copy-to-clipboard": "^5.0.3",
+    "react-dom": "^16.14.0",
     "react-helmet": "^5.2.1",
-    "react-icons": "^3.7.0",
-    "react-redux": "^7.1.0",
-    "react-toastify": "^5.3.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "react-icons": "^3.11.0",
+    "react-redux": "^7.2.2",
+    "react-toastify": "^5.5.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@types/body-scroll-lock": "^2.6.1",
+    "@types/node": "^14.14.31",
+    "@types/react": "^17.0.2",
+    "@types/react-burger-menu": "^2.6.2",
+    "@types/react-copy-to-clipboard": "^5.0.0",
+    "@types/react-dom": "^17.0.1",
+    "@types/react-helmet": "^6.1.0",
+    "@types/react-redux": "^7.1.16",
+    "@types/styled-components": "^5.1.7",
+    "prettier": "^1.19.1"
   },
   "keywords": [
     "gatsby"
@@ -41,16 +59,16 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write src/**/*.{js,jsx}",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "clean": "gatsby clean"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/kmr600/tagger"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/kmr600/tagger/issues"
   }
 }
